@@ -1,20 +1,17 @@
-var_file=vars
 root=./
 target=$(root)/target/
 
-stub-var-file:
-	@touch $(var_file)
+default: render
 
 clean-target:
 	rm -rf $(target)
 
-default: clean-target stub-var-file
+render: clean-target
 	@echo "Rendering dhall"
 	@mkdir -p $(target)
 	@dhall-to-json <<< "$(root)/test.tf.dhall" > "$(target)/test.tf.json"
 	@echo "Running terraform"
 	@terraform plan \
-		-var-file=$(var_file)
 		$(target)
 
 watch:
