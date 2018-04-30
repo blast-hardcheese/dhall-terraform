@@ -3,6 +3,10 @@ target=$(root)/target/
 
 default: render
 
+mkfile_path := $(abspath $(lastword $(MAKEFILE_LIST)))
+current_dir := $(dir $(mkfile_path))
+export TERRAFORM := $(current_dir)/terraform.dhall
+
 clean-target:
 	rm -rf $(target)
 
