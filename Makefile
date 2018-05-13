@@ -7,6 +7,7 @@ DHALL ?= dhall-to-json
 
 mkfile_path := $(abspath $(lastword $(MAKEFILE_LIST)))
 current_dir := $(dir $(mkfile_path))
+export LIB := $(current_dir)/terraform/lib.dhall
 export TERRAFORM := $(current_dir)/terraform.dhall
 
 clean-target:
