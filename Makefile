@@ -23,6 +23,6 @@ render: clean-target
 
 watch:
 	while true; do \
-		find $(root) -name '*.tf.dhall' -type f | entr -cd make; \
+		find $(root) -name '*.dhall' -type f | entr -cd make; \
 		sleep 1; \
 	done
