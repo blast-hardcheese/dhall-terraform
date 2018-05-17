@@ -1,0 +1,10 @@
+{-
+Constructs a Terraform-style reference.
+
+Example:
+```
+./ref2 "var" "test"
+= "\${var.test}"
+```
+-}
+let ref2 = λ(scope : Text) → λ(k1 : Text) → "\${${scope}.${k1}}" in ref2

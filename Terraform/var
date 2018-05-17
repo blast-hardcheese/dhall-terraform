@@ -1,0 +1,10 @@
+{-
+Constructs a Terraform variable reference.
+
+Example:
+```
+./var "test"
+= "\${var.test}"
+```
+-}
+let var = λ(k1 : Text) → "\${var.${k1}}" in var

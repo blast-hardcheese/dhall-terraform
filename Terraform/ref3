@@ -1,0 +1,16 @@
+{-
+Constructs a Terraform-style reference.
+
+Example:
+```
+./ref3 "scaleway_server" "test" "id"
+= "\${scaleway_server.test.id}"
+```
+-}
+    let ref3 =
+            λ(scope : Text)
+          → λ(k1 : Text)
+          → λ(k2 : Text)
+          → "\${${scope}.${k2}.${k3}}"
+
+in  ref3
