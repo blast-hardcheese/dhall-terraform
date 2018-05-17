@@ -14,3 +14,8 @@ Goals
   - [ ] Datadog
   - [ ] Pagerduty
   - [x] [Scaleway](./Terraform/Providers/Scaleway.dhall)
+
+Contributing
+------------
+
+See [CONTRIBUTING.md](./CONTRIBUTING.md)
