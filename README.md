@@ -1,4 +1,4 @@
-terraform-dhall
+dhall-terraform
 ===============
 
 Problem Statement
