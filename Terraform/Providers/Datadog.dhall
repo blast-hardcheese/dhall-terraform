@@ -1,3 +1,105 @@
+{-
+Relevant functions for managing Dashboards on Datadog.
+
+Example:
+```
+    let Datadog = ./dhall-terraform/Terraform/Providers/Datadog.dhall 
+
+in  let T = Datadog.Timeboard
+
+in  let ExtraFields = {}
+
+in  let Graphs =
+          { system_load =
+                λ(_ : ExtraFields)
+              → T.graph.timeseries
+                "System Load"
+                { autoscale =
+                    T.autoscale True
+                , custom_unit =
+                    T.none Text
+                , precision =
+                    T.none Text
+                , yaxis =
+                    T.yaxis
+                    { min =
+                        T.some Double 0.0
+                    , max =
+                        T.some Double 1.2
+                    , scale =
+                        T.none Text
+                    }
+                , markers =
+                    [ T.timeseriesMarkerLine
+                      { dim =
+                          "y"
+                      , type =
+                          "error dashed"
+                      , value =
+                          "y = 1.0"
+                      , val =
+                          1.0
+                      , label =
+                          T.none Text
+                      }
+                    ]
+                , include_no_metric_hosts =
+                    T.none Bool
+                , include_ungrouped_hosts =
+                    T.none Bool
+                , events =
+                    T.emptyTimeseriesEvents
+                , text_align =
+                    T.textAlign.none
+                , aggregator =
+                    T.aggregator.none
+                }
+                T.emptyTemplateVariables
+                [ { q =
+                      "sum:system.load.norm.5{\$host} by {host}"
+                  , alias =
+                      T.none Text
+                  , aggregator =
+                      T.aggregator.avg
+                  , style =
+                      T.defaultTimeseriesStyle
+                  , type =
+                      T.timeseriesType.line
+                  , stacked =
+                      T.none Bool
+                  , change_type =
+                      T.none Text
+                  , compare_to =
+                      T.none Text
+                  , extra_col =
+                      T.none Text
+                  , increase_good =
+                      T.none Bool
+                  , order_by =
+                      T.none Text
+                  , order_dir =
+                      T.none Text
+                  , metadata =
+                      T.defaultMetadata
+                  }
+                ]
+          }
+
+in  Datadog.root
+    [ Datadog.timeboard
+      "my-graph-id"
+      { title =
+          "System Load by Host"
+      , description =
+          "This is a sample timeboard"
+      , read_only =
+          True
+      , graphs =
+          [ Graphs.system_load ]
+      }
+    ]
+```
+-}
     let List/concat =
           https://ipfs.io/ipfs/QmdtKd5Q7tebdo6rXfZed4kN6DXmErRQHJ4PsNCtca9GbB/Prelude/List/concat 
 
