@@ -436,31 +436,33 @@ in  let TimeseriesEvent = { q : Text, tags_execution : Optional Text }
 in  let TimeseriesEventExecution = < and : Text >
 
 in  let TimeseriesMarkerLine =
-          { dim :
+          { {-dim :
               Text
-          , type :
+          ,-} type :
               Text
           , value :
               Text
           , label :
               Optional Text
-          , val :
+          {-, val :
               Double
+          -}
           }
 
 in  let TimeseriesMarkerRange =
-          { dim :
+          { {-dim :
               Text
-          , type :
+          ,-} type :
               Text
           , value :
               Text
           , label :
               Optional Text
-          , min :
+          {-, min :
               Optional Double
           , max :
               Optional Double
+          -}
           }
 
 in  let TimeseriesMarker =
