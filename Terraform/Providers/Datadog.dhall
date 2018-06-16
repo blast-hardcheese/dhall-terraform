@@ -675,7 +675,7 @@ in  let Graph =
                   Optional Text
               , text_align :
                   TextAlign
-              , markers :
+              , marker :
                   List TimeseriesMarker
               , events :
                   List TimeseriesEvent
@@ -701,7 +701,7 @@ in  let Graph =
                   Optional Text
               , yaxis :
                   Optional YAxis
-              , markers :
+              , marker :
                   List TimeseriesMarker
               , include_no_metric_hosts :
                   Optional Bool
@@ -883,7 +883,7 @@ in  let graph =
                         opts.precision
                     , text_align =
                         opts.text_align
-                    , markers =
+                    , marker =
                         opts.markers
                     , events =
                         opts.events
@@ -943,7 +943,7 @@ in  let graph =
                         opts.precision
                     , yaxis =
                         opts.yaxis
-                    , markers =
+                    , marker =
                         opts.markers
                     , include_no_metric_hosts =
                         opts.include_no_metric_hosts
