@@ -400,7 +400,7 @@ in  let QueryValueRequest =
           , type :
               QueryValueType
           , metadata :
-              List Metadata
+              Optional (List Metadata)
           , stacked :
               Optional Bool
           }
@@ -516,8 +516,8 @@ in  let TimeseriesRequest =
               Optional Text
           , order_dir :
               Optional Text
-          , metadata :
-              List Metadata
+           , metadata :
+               Optional (List Metadata)
           }
 
 in  let timeseriesEventExecution =
@@ -1055,7 +1055,7 @@ in  let timeboard =
           , defaultToplistStyle =
               [] : Optional ToplistStyle
           , defaultMetadata =
-              [] : List Metadata
+              [] : Optional (List Metadata)
           , distributionStyle =
                 λ(value : DistributionStyle)
               → [ value ] : Optional DistributionStyle
