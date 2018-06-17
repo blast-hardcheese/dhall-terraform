@@ -436,34 +436,10 @@ in  let TimeseriesEvent = { q : Text, tags_execution : Optional Text }
 in  let TimeseriesEventExecution = < and : Text >
 
 in  let TimeseriesMarkerLine =
-          { {-dim :
-              Text
-          ,-} type :
-              Text
-          , value :
-              Text
-          , label :
-              Optional Text
-          {-, val :
-              Double
-          -}
-          }
+          { type : Text, value : Text, label : Optional Text }
 
 in  let TimeseriesMarkerRange =
-          { {-dim :
-              Text
-          ,-} type :
-              Text
-          , value :
-              Text
-          , label :
-              Optional Text
-          {-, min :
-              Optional Double
-          , max :
-              Optional Double
-          -}
-          }
+          { type : Text, value : Text, label : Optional Text }
 
 in  let TimeseriesMarker =
           < line : TimeseriesMarkerLine | range : TimeseriesMarkerRange >
@@ -518,8 +494,8 @@ in  let TimeseriesRequest =
               Optional Text
           , order_dir :
               Optional Text
-           , metadata :
-               Optional (List Metadata)
+          , metadata :
+              Optional (List Metadata)
           }
 
 in  let timeseriesEventExecution =
@@ -760,30 +736,38 @@ in  let graph =
                   → λ(opts : { autoscale : Optional Bool })
                   → λ(variables : List TemplateVariable)
                   → λ(requests : List ChangeRequest)
-                  → f.change
-                    { title =
-                        title
-                    , autoscale =
-                        opts.autoscale
-                    , request =
-                        requests
-                    , viz =
-                        "change"
+                  → { graph =
+                        f.change
+                        { title =
+                            title
+                        , autoscale =
+                            opts.autoscale
+                        , request =
+                            requests
+                        , viz =
+                            "change"
+                        }
+                    , vars =
+                        variables
                     }
               , distribution =
                     λ(title : Text)
                   → λ(opts : { autoscale : Optional Bool })
                   → λ(variables : List TemplateVariable)
                   → λ(requests : List DistributionRequest)
-                  → f.distribution
-                    { title =
-                        title
-                    , autoscale =
-                        opts.autoscale
-                    , request =
-                        requests
-                    , viz =
-                        "distribution"
+                  → { graph =
+                        f.distribution
+                        { title =
+                            title
+                        , autoscale =
+                            opts.autoscale
+                        , request =
+                            requests
+                        , viz =
+                            "distribution"
+                        }
+                    , vars =
+                        variables
                     }
               , heatmap =
                     λ(title : Text)
@@ -800,8 +784,12 @@ in  let graph =
                       )
                   → λ(variables : List TemplateVariable)
                   → λ(requests : List HeatmapRequest)
-                  → f.heatmap
-                    { title = title, request = requests, viz = "heatmap" }
+                  → { graph =
+                        f.heatmap
+                        { title = title, request = requests, viz = "heatmap" }
+                    , vars =
+                        variables
+                    }
               , hostmap =
                     λ(title : Text)
                   → λ ( opts
@@ -821,25 +809,29 @@ in  let graph =
                       )
                   → λ(variables : List TemplateVariable)
                   → λ(requests : List HostmapRequest)
-                  → f.hostmap
-                    { title =
-                        title
-                    , request =
-                        requests
-                    , viz =
-                        "hostmap"
-                    , style =
-                        opts.style
-                    , group =
-                        opts.group
-                    , scope =
-                        opts.scope
-                    , include_no_metric_hosts =
-                        opts.include_no_metric_hosts
-                    , include_ungrouped_hosts =
-                        opts.include_ungrouped_hosts
-                    , nodeType =
-                        opts.nodeType
+                  → { graph =
+                        f.hostmap
+                        { title =
+                            title
+                        , request =
+                            requests
+                        , viz =
+                            "hostmap"
+                        , style =
+                            opts.style
+                        , group =
+                            opts.group
+                        , scope =
+                            opts.scope
+                        , include_no_metric_hosts =
+                            opts.include_no_metric_hosts
+                        , include_ungrouped_hosts =
+                            opts.include_ungrouped_hosts
+                        , nodeType =
+                            opts.nodeType
+                        }
+                    , vars =
+                        variables
                     }
               , query_value =
                     λ(title : Text)
@@ -868,41 +860,49 @@ in  let graph =
                       )
                   → λ(variables : List TemplateVariable)
                   → λ(requests : List QueryValueRequest)
-                  → f.query_value
-                    { title =
-                        title
-                    , request =
-                        requests
-                    , viz =
-                        "query_value"
-                    , aggregator =
-                        opts.aggregator
-                    , autoscale =
-                        opts.autoscale
-                    , custom_unit =
-                        opts.custom_unit
-                    , precision =
-                        opts.precision
-                    , text_align =
-                        opts.text_align
-                    , marker =
-                        opts.markers
-                    , events =
-                        opts.events
-                    , yaxis =
-                        opts.yaxis
-                    , include_no_metric_hosts =
-                        opts.include_no_metric_hosts
-                    , include_ungrouped_hosts =
-                        opts.include_ungrouped_hosts
+                  → { graph =
+                        f.query_value
+                        { title =
+                            title
+                        , request =
+                            requests
+                        , viz =
+                            "query_value"
+                        , aggregator =
+                            opts.aggregator
+                        , autoscale =
+                            opts.autoscale
+                        , custom_unit =
+                            opts.custom_unit
+                        , precision =
+                            opts.precision
+                        , text_align =
+                            opts.text_align
+                        , marker =
+                            opts.markers
+                        , events =
+                            opts.events
+                        , yaxis =
+                            opts.yaxis
+                        , include_no_metric_hosts =
+                            opts.include_no_metric_hosts
+                        , include_ungrouped_hosts =
+                            opts.include_ungrouped_hosts
+                        }
+                    , vars =
+                        variables
                     }
               , process =
                     λ(title : Text)
                   → λ(opts : {})
                   → λ(variables : List TemplateVariable)
                   → λ(requests : List ProcessRequest)
-                  → f.process
-                    { title = title, request = requests, viz = "process" }
+                  → { graph =
+                        f.process
+                        { title = title, request = requests, viz = "process" }
+                    , vars =
+                        variables
+                    }
               , timeseries =
                     λ(title : Text)
                   → λ ( opts
@@ -930,33 +930,37 @@ in  let graph =
                       )
                   → λ(variables : List TemplateVariable)
                   → λ(requests : List TimeseriesRequest)
-                  → f.timeseries
-                    { title =
-                        title
-                    , request =
-                        requests
-                    , viz =
-                        "timeseries"
-                    , autoscale =
-                        opts.autoscale
-                    , custom_unit =
-                        opts.custom_unit
-                    , precision =
-                        opts.precision
-                    , yaxis =
-                        opts.yaxis
-                    , marker =
-                        opts.markers
-                    , include_no_metric_hosts =
-                        opts.include_no_metric_hosts
-                    , include_ungrouped_hosts =
-                        opts.include_ungrouped_hosts
-                    , events =
-                        opts.events
-                    , text_align =
-                        opts.text_align
-                    , aggregator =
-                        opts.aggregator
+                  → { graph =
+                        f.timeseries
+                        { title =
+                            title
+                        , request =
+                            requests
+                        , viz =
+                            "timeseries"
+                        , autoscale =
+                            opts.autoscale
+                        , custom_unit =
+                            opts.custom_unit
+                        , precision =
+                            opts.precision
+                        , yaxis =
+                            opts.yaxis
+                        , marker =
+                            opts.markers
+                        , include_no_metric_hosts =
+                            opts.include_no_metric_hosts
+                        , include_ungrouped_hosts =
+                            opts.include_ungrouped_hosts
+                        , events =
+                            opts.events
+                        , text_align =
+                            opts.text_align
+                        , aggregator =
+                            opts.aggregator
+                        }
+                    , vars =
+                        variables
                     }
               , toplist =
                     λ(title : Text)
@@ -975,23 +979,27 @@ in  let graph =
                       )
                   → λ(variables : List TemplateVariable)
                   → λ(requests : List ToplistRequest)
-                  → f.toplist
-                    { title =
-                        title
-                    , request =
-                        requests
-                    , viz =
-                        "toplist"
-                    , autoscale =
-                        opts.autoscale
-                    , custom_unit =
-                        opts.custom_unit
-                    , precision =
-                        opts.precision
-                    , text_align =
-                        opts.text_align
-                    , yaxis =
-                        opts.yaxis
+                  → { graph =
+                        f.toplist
+                        { title =
+                            title
+                        , request =
+                            requests
+                        , viz =
+                            "toplist"
+                        , autoscale =
+                            opts.autoscale
+                        , custom_unit =
+                            opts.custom_unit
+                        , precision =
+                            opts.precision
+                        , text_align =
+                            opts.text_align
+                        , yaxis =
+                            opts.yaxis
+                        }
+                    , vars =
+                        variables
                     }
               , treemap =
                     λ(title : Text)
@@ -1008,21 +1016,25 @@ in  let graph =
                       )
                   → λ(variables : List TemplateVariable)
                   → λ(requests : List TreemapRequest)
-                  → f.treemap
-                    { title =
-                        title
-                    , request =
-                        requests
-                    , viz =
-                        "treemap"
-                    , q =
-                        opts.q
-                    , size_by =
-                        opts.size_by
-                    , color_by =
-                        opts.color_by
-                    , group_by =
-                        opts.group_by
+                  → { graph =
+                        f.treemap
+                        { title =
+                            title
+                        , request =
+                            requests
+                        , viz =
+                            "treemap"
+                        , q =
+                            opts.q
+                        , size_by =
+                            opts.size_by
+                        , color_by =
+                            opts.color_by
+                        , group_by =
+                            opts.group_by
+                        }
+                    , vars =
+                        variables
                     }
               }
 
@@ -1154,7 +1166,8 @@ in  let TimeboardOpts =
             , read_only :
                 Bool
             , graphs :
-                List (ExtraFields → Graph)
+                List
+                (ExtraFields → { graph : Graph, vars : List TemplateVariable })
             }
 
 in  let buildTimeboard =
@@ -1162,31 +1175,55 @@ in  let buildTimeboard =
           → λ(extraFields : ExtraFields)
           → λ(key : Text)
           → λ(opts : TimeboardOpts ExtraFields)
-          → [   { mapKey =
-                    key
-                , mapValue =
-                    { title =
-                        opts.title
-                    , description =
-                        opts.description
-                    , read_only =
-                        opts.read_only
-                    , graph =
-                        List/fold
-                        (ExtraFields → Graph)
-                        opts.graphs
-                        (List Graph)
-                        (   λ(next : ExtraFields → Graph)
-                          → λ(acc : List Graph)
-                          → [ next extraFields ] # acc
-                        )
-                        ([] : List Graph)
-                    , template_variable =
-                        [] : List TemplateVariable
+          →     let meta =
+                      List/fold
+                      (   ExtraFields
+                        → { graph : Graph, vars : List TemplateVariable }
+                      )
+                      opts.graphs
+                      { graphs : List Graph, vars : List TemplateVariable }
+                      (   λ ( next
+                            :   ExtraFields
+                              → { graph : Graph, vars : List TemplateVariable }
+                            )
+                        → λ ( acc
+                            : { graphs :
+                                  List Graph
+                              , vars :
+                                  List TemplateVariable
+                              }
+                            )
+                        →     let res = next extraFields
+                          
+                          in  { graphs =
+                                  [ res.graph ] # acc.graphs
+                              , vars =
+                                  res.vars # acc.vars
+                              }
+                      )
+                      { graphs =
+                          [] : List Graph
+                      , vars =
+                          [] : List TemplateVariable
+                      }
+            
+            in  [   { mapKey =
+                        key
+                    , mapValue =
+                        { title =
+                            opts.title
+                        , description =
+                            opts.description
+                        , read_only =
+                            opts.read_only
+                        , graph =
+                            meta.graphs
+                        , template_variable =
+                            meta.vars
+                        }
                     }
-                }
-              : { mapKey : Text, mapValue : Timeboard }
-            ]
+                  : { mapKey : Text, mapValue : Timeboard }
+                ]
 
 in  let buildMetaTimeboards =
             λ(ExtraFields : Type)
