@@ -1183,6 +1183,7 @@ in  let TimeboardOpts =
             , graphs :
                 List
                 (ExtraFields → { graph : Graph, vars : List TemplateVariable })
+            , template_variable : List TemplateVariable
             }
 
 in  let buildTimeboard =
@@ -1196,31 +1197,18 @@ in  let buildTimeboard =
                         → { graph : Graph, vars : List TemplateVariable }
                       )
                       opts.graphs
-                      { graphs : List Graph, vars : List TemplateVariable }
+                       (List Graph)
                       (   λ ( next
                             :   ExtraFields
                               → { graph : Graph, vars : List TemplateVariable }
                             )
-                        → λ ( acc
-                            : { graphs :
-                                  List Graph
-                              , vars :
-                                  List TemplateVariable
-                              }
+                        → λ ( acc : List Graph
                             )
                         →     let res = next extraFields
                           
-                          in  { graphs =
-                                  [ res.graph ] # acc.graphs
-                              , vars =
-                                  res.vars # acc.vars
-                              }
+                          in  [ res.graph ] # acc
                       )
-                      { graphs =
-                          [] : List Graph
-                      , vars =
-                          [] : List TemplateVariable
-                      }
+                          ([] : List Graph)
             
             in  [   { mapKey =
                         key
@@ -1232,9 +1220,9 @@ in  let buildTimeboard =
                         , read_only =
                             opts.read_only
                         , graph =
-                            meta.graphs
+                            meta
                         , template_variable =
-                            meta.vars
+                            opts.template_variable
                         }
                     }
                   : { mapKey : Text, mapValue : Timeboard }
