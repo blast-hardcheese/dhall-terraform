@@ -1155,8 +1155,21 @@ in  let timeboard =
               λ(T : Type) → λ(value : T) → [ value ] : Optional T
           , none =
               λ(T : Type) → [] : Optional T
-          , var = \(name : Text) -> \(prefix : Text) -> { name = name , prefix = prefix , default = [] : Optional Text }
-          , dvar = \(name : Text) -> \(prefix : Text) -> \(default: Text) -> { name = name , prefix = prefix , default = [default] : Optional Text }
+          , var =
+                λ(name : Text)
+              → λ(prefix : Text)
+              → { name = name, prefix = prefix, default = [] : Optional Text }
+          , dvar =
+                λ(name : Text)
+              → λ(prefix : Text)
+              → λ(default : Text)
+              → { name =
+                    name
+                , prefix =
+                    prefix
+                , default =
+                    [ default ] : Optional Text
+                }
           }
 
 in  let TimeboardOpts =
