@@ -435,11 +435,38 @@ in  let TimeseriesEvent = { q : Text, tags_execution : Optional Text }
 
 in  let TimeseriesEventExecution = < and : Text >
 
+in  let TimeseriesMarkerType =
+          < errorBold :
+              Text
+          | errorDashed :
+              Text
+          | errorSolid :
+              Text
+          | infoBold :
+              Text
+          | infoDashed :
+              Text
+          | infoSolid :
+              Text
+          | okBold :
+              Text
+          | okDashed :
+              Text
+          | okSolid :
+              Text
+          | warningBold :
+              Text
+          | warningDashed :
+              Text
+          | warningSolid :
+              Text
+          >
+
 in  let TimeseriesMarkerLine =
-          { type : Text, value : Text, label : Optional Text }
+          { type : TimeseriesMarkerType, value : Text, label : Optional Text }
 
 in  let TimeseriesMarkerRange =
-          { type : Text, value : Text, label : Optional Text }
+          { type : TimeseriesMarkerType, value : Text, label : Optional Text }
 
 in  let TimeseriesMarker =
           < line : TimeseriesMarkerLine | range : TimeseriesMarkerRange >
@@ -514,6 +541,35 @@ in  let timeseriesStyleType =
                   f.dashed "dashed"
               , dotted =
                   f.dotted "dotted"
+              }
+
+in  let timeseriesMarkerType =
+              let f = constructors TimeseriesMarkerType
+          
+          in  { errorBold =
+                  f.errorBold "error bold"
+              , errorDashed =
+                  f.errorDashed "error dashed"
+              , errorSolid =
+                  f.errorSolid "error solid"
+              , infoBold =
+                  f.infoBold "info bold"
+              , infoDashed =
+                  f.infoDashed "info dashed"
+              , infoSolid =
+                  f.infoSolid "info solid"
+              , okBold =
+                  f.okBold "ok bold"
+              , okDashed =
+                  f.okDashed "ok dashed"
+              , okSolid =
+                  f.okSolid "ok solid"
+              , warningBold =
+                  f.warningBold "warning bold"
+              , warningDashed =
+                  f.warningDashed "warning dashed"
+              , warningSolid =
+                  f.warningSolid "warning solid"
               }
 
 in  let timeseriesType =
@@ -1137,6 +1193,8 @@ in  let timeboard =
               timeseriesStyleType
           , timeseriesType =
               timeseriesType
+          , timeseriesMarkerType =
+              timeseriesMarkerType
           , toplistStyle =
               λ(value : ToplistStyle) → [ value ] : Optional ToplistStyle
           , toplistStyleType =
