@@ -1241,7 +1241,8 @@ in  let TimeboardOpts =
             , graphs :
                 List
                 (ExtraFields → { graph : Graph, vars : List TemplateVariable })
-            , template_variable : List TemplateVariable
+            , template_variable :
+                List TemplateVariable
             }
 
 in  let buildTimeboard =
@@ -1255,18 +1256,15 @@ in  let buildTimeboard =
                         → { graph : Graph, vars : List TemplateVariable }
                       )
                       opts.graphs
-                       (List Graph)
+                      (List Graph)
                       (   λ ( next
                             :   ExtraFields
                               → { graph : Graph, vars : List TemplateVariable }
                             )
-                        → λ ( acc : List Graph
-                            )
-                        →     let res = next extraFields
-                          
-                          in  [ res.graph ] # acc
+                        → λ(acc : List Graph)
+                        → let res = next extraFields in [ res.graph ] # acc
                       )
-                          ([] : List Graph)
+                      ([] : List Graph)
             
             in  [   { mapKey =
                         key
