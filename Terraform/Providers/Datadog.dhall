@@ -658,8 +658,130 @@ in  let timeboard =
                               }
                         }
 
+          in  let TimeboardOpts =
+                      λ(ExtraFields : Type)
+                    → { title :
+                          Text
+                      , description :
+                          Text
+                      , read_only :
+                          Bool
+                      , graphs :
+                          List
+                          (   ExtraFields
+                            → { graph :
+                                  Types.Graph
+                              , vars :
+                                  List Types.TemplateVariable
+                              }
+                          )
+                      , template_variable :
+                          List Types.TemplateVariable
+                      }
+
+          in  let buildTimeboard =
+                      λ(ExtraFields : Type)
+                    → λ(extraFields : ExtraFields)
+                    → λ(key : Text)
+                    → λ(opts : TimeboardOpts ExtraFields)
+                    →     let meta =
+                                List/fold
+                                (   ExtraFields
+                                  → { graph :
+                                        Types.Graph
+                                    , vars :
+                                        List Types.TemplateVariable
+                                    }
+                                )
+                                opts.graphs
+                                (List Types.Graph)
+                                (   λ ( next
+                                      :   ExtraFields
+                                        → { graph :
+                                              Types.Graph
+                                          , vars :
+                                              List Types.TemplateVariable
+                                          }
+                                      )
+                                  → λ(acc : List Types.Graph)
+                                  →     let res = next extraFields
+
+                                    in  [ res.graph ] # acc
+                                )
+                                ([] : List Types.Graph)
+
+                      in  [   { mapKey =
+                                  key
+                              , mapValue =
+                                  { title =
+                                      opts.title
+                                  , description =
+                                      opts.description
+                                  , read_only =
+                                      opts.read_only
+                                  , graph =
+                                      meta
+                                  , template_variable =
+                                      opts.template_variable
+                                  }
+                              }
+                            : { mapKey : Text, mapValue : Types.Timeboard }
+                          ]
+
+          in  let buildMetaTimeboards =
+                      λ(ExtraFields : Type)
+                    →     let MetaParameters =
+                                { titlePrefix :
+                                    Text
+                                , titleSuffix :
+                                    Text
+                                , keyPrefix :
+                                    Text
+                                , keySuffix :
+                                    Text
+                                , fields :
+                                    ExtraFields
+                                }
+
+                      in    λ(extraFields : List MetaParameters)
+                          → λ(key : Text)
+                          → λ(opts : TimeboardOpts ExtraFields)
+                          → List/fold
+                            MetaParameters
+                            extraFields
+                            (List { mapKey : Text, mapValue : Types.Timeboard })
+                            (   λ(next : MetaParameters)
+                              → λ ( acc
+                                  : List
+                                    { mapKey :
+                                        Text
+                                    , mapValue :
+                                        Types.Timeboard
+                                    }
+                                  )
+                              →   buildTimeboard
+                                  ExtraFields
+                                  next.fields
+                                  (next.keyPrefix ++ key ++ next.keySuffix)
+                                  (   opts
+                                    ⫽ { title =
+                                              next.titlePrefix
+                                          ++  opts.title
+                                          ++  next.titleSuffix
+                                      }
+                                  )
+                                # acc
+                            )
+                            ( [] : List
+                                   { mapKey : Text, mapValue : Types.Timeboard }
+                            )
+
           in  { autoscale =
                   λ(value : Bool) → [ value ] : Optional Bool
+              , buildTimeboard =
+                  buildTimeboard
+              , buildMetaTimeboards =
+                  buildMetaTimeboards
               , defaultChangeStyle =
                   [] : Optional Types.ChangeStyle
               , defaultDistributionStyle =
@@ -792,111 +914,6 @@ in  let timeboard =
                     }
               }
 
-in  let TimeboardOpts =
-            λ(ExtraFields : Type)
-          → { title :
-                Text
-            , description :
-                Text
-            , read_only :
-                Bool
-            , graphs :
-                List
-                (   ExtraFields
-                  → { graph : Types.Graph, vars : List Types.TemplateVariable }
-                )
-            , template_variable :
-                List Types.TemplateVariable
-            }
-
-in  let buildTimeboard =
-            λ(ExtraFields : Type)
-          → λ(extraFields : ExtraFields)
-          → λ(key : Text)
-          → λ(opts : TimeboardOpts ExtraFields)
-          →     let meta =
-                      List/fold
-                      (   ExtraFields
-                        → { graph :
-                              Types.Graph
-                          , vars :
-                              List Types.TemplateVariable
-                          }
-                      )
-                      opts.graphs
-                      (List Types.Graph)
-                      (   λ ( next
-                            :   ExtraFields
-                              → { graph :
-                                    Types.Graph
-                                , vars :
-                                    List Types.TemplateVariable
-                                }
-                            )
-                        → λ(acc : List Types.Graph)
-                        → let res = next extraFields in [ res.graph ] # acc
-                      )
-                      ([] : List Types.Graph)
-
-            in  [   { mapKey =
-                        key
-                    , mapValue =
-                        { title =
-                            opts.title
-                        , description =
-                            opts.description
-                        , read_only =
-                            opts.read_only
-                        , graph =
-                            meta
-                        , template_variable =
-                            opts.template_variable
-                        }
-                    }
-                  : { mapKey : Text, mapValue : Types.Timeboard }
-                ]
-
-in  let buildMetaTimeboards =
-            λ(ExtraFields : Type)
-          →     let MetaParameters =
-                      { titlePrefix :
-                          Text
-                      , titleSuffix :
-                          Text
-                      , keyPrefix :
-                          Text
-                      , keySuffix :
-                          Text
-                      , fields :
-                          ExtraFields
-                      }
-
-            in    λ(extraFields : List MetaParameters)
-                → λ(key : Text)
-                → λ(opts : TimeboardOpts ExtraFields)
-                → List/fold
-                  MetaParameters
-                  extraFields
-                  (List { mapKey : Text, mapValue : Types.Timeboard })
-                  (   λ(next : MetaParameters)
-                    → λ ( acc
-                        : List { mapKey : Text, mapValue : Types.Timeboard }
-                        )
-                    →   buildTimeboard
-                        ExtraFields
-                        next.fields
-                        (next.keyPrefix ++ key ++ next.keySuffix)
-                        (   opts
-                          ⫽ { title =
-                                    next.titlePrefix
-                                ++  opts.title
-                                ++  next.titleSuffix
-                            }
-                        )
-                      # acc
-                  )
-                  ([] : List { mapKey : Text, mapValue : Types.Timeboard })
-
 
 in  { Timeboard =
         timeboard
@@ -913,8 +930,4 @@ in  { Timeboard =
                   timeboards
               }
           }
-    , timeboard =
-        buildTimeboard
-    , buildMetaTimeboards =
-        buildMetaTimeboards
     }
