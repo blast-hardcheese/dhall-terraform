@@ -103,46 +103,10 @@ in  Datadog.root
     let List/concat =
           https://raw.githubusercontent.com/dhall-lang/Prelude/e44284bc37a5808861dacd4c8bd13d18411cb961/List/concat
 
-in  let Aggregator =
-          < none :
-              Optional Text
-          | sum :
-              Text
-          | avg :
-              Text
-          | min :
-              Text
-          | max :
-              Text
-          | last :
-              Text
-          | line :
-              Text
-          | count :
-              Text
-          >
-
-in  let MetadataElem = { alias : Text }
-
-in  let Metadata = { mapKey : Text, mapValue : MetadataElem }
-
-in  let TemplateVariable =
-          { name : Text, prefix : Text, default : Optional Text }
-
-in  let TextAlign =
-          < none : Optional Text | center : Text | left : Text | right : Text >
-
-in  let YAxis =
-          { min :
-              Optional Double
-          , max :
-              Optional Double
-          , scale :
-              Optional Text
-          }
+in  let Types = ./Types.dhall
 
 in  let aggregator =
-              let f = constructors Aggregator
+              let f = constructors Types.Aggregator
 
           in  { none =
                   f.none ([] : Optional Text)
@@ -163,7 +127,7 @@ in  let aggregator =
               }
 
 in  let textAlign =
-              let f = constructors TextAlign
+              let f = constructors Types.TextAlign
 
           in  { none =
                   f.none ([] : Optional Text)
@@ -175,96 +139,23 @@ in  let textAlign =
                   f.right "right"
               }
 
-in  let ChangeStyleType = < none : Optional Text >
-
-in  let ChangeStyle =
-          { width :
-              Optional Text
-          , palette :
-              Optional Text
-          , type :
-              ChangeStyleType
-          }
-
-in  let ChangeType = < none : Optional Text | line : Text >
-
-in  let ChangeRequest =
-          { aggregator :
-              Aggregator
-          , extra_col :
-              Optional Text
-          , type :
-              ChangeType
-          , change_type :
-              Optional Text
-          , order_dir :
-              Optional Text
-          , compare_to :
-              Optional Text
-          , q :
-              Text
-          , increase_good :
-              Optional Bool
-          , order_by :
-              Optional Text
-          , style :
-              Optional ChangeStyle
-          }
-
 in  let changeType =
-              let f = constructors ChangeType
+              let f = constructors Types.ChangeType
 
           in  { none = f.none ([] : Optional Text), line = f.line "line" }
 
 in  let changeStyleType =
-              let f = constructors ChangeStyleType
+              let f = constructors Types.ChangeStyleType
 
           in  { none = f.none ([] : Optional Text) }
 
-in  let DistributionType =
-          < none : Optional Text | area : Text | bars : Text | line : Text >
-
-in  let DistributionStyleType = < none : Optional Text | solid : Text >
-
-in  let DistributionStyle =
-          { width :
-              Optional Text
-          , palette :
-              Optional Text
-          , type :
-              DistributionStyleType
-          }
-
-in  let DistributionRequest =
-          { aggregator :
-              Aggregator
-          , extra_col :
-              Optional Text
-          , change_type :
-              Optional Text
-          , order_dir :
-              Optional Text
-          , compare_to :
-              Optional Text
-          , q :
-              Text
-          , increase_good :
-              Optional Bool
-          , order_by :
-              Optional Text
-          , type :
-              DistributionType
-          , style :
-              Optional DistributionStyle
-          }
-
 in  let distributionStyleType =
-              let f = constructors DistributionStyleType
+              let f = constructors Types.DistributionStyleType
 
           in  { none = f.none ([] : Optional Text), solid = f.solid "solid" }
 
 in  let distributionType =
-              let f = constructors DistributionType
+              let f = constructors Types.DistributionType
 
           in  { none =
                   f.none ([] : Optional Text)
@@ -276,38 +167,13 @@ in  let distributionType =
                   f.line "line"
               }
 
-in  let HeatmapStyleType = < none : Optional Text | solid : Text >
-
-in  let HeatmapStyle =
-          { palette :
-              Optional Text
-          , type :
-              HeatmapStyleType
-          , width :
-              Optional Text
-          }
-
-in  let HeatmapType =
-          < none : Optional Text | area : Text | bars : Text | line : Text >
-
-in  let HeatmapRequest =
-          { q :
-              Text
-          , aggregator :
-              Aggregator
-          , type :
-              HeatmapType
-          , style :
-              Optional HeatmapStyle
-          }
-
 in  let heatmapStyleType =
-              let f = constructors HeatmapStyleType
+              let f = constructors Types.HeatmapStyleType
 
           in  { none = f.none ([] : Optional Text), solid = f.solid "solid" }
 
 in  let heatmapType =
-              let f = constructors HeatmapType
+              let f = constructors Types.HeatmapType
 
           in  { none =
                   f.none ([] : Optional Text)
@@ -321,18 +187,8 @@ in  let heatmapType =
                   f.line "line"
               }
 
-in  let HostmapRequestType =
-          < none : Optional Text | fill : Text | size : Text >
-
-in  let HostmapType = < none : Optional Text | fill : Text | size : Text >
-
-in  let HostmapRequest =
-          { q : Text, aggregator : Aggregator, type : HostmapType }
-
-in  let HostmapStyle = {}
-
 in  let hostmapRequestType =
-              let f = constructors HostmapRequestType
+              let f = constructors Types.HostmapRequestType
 
           in  { none =
                   f.none ([] : Optional Text)
@@ -343,7 +199,7 @@ in  let hostmapRequestType =
               }
 
 in  let hostmapType =
-              let f = constructors HostmapType
+              let f = constructors Types.HostmapType
 
           in  { none =
                   f.none ([] : Optional Text)
@@ -353,60 +209,8 @@ in  let hostmapType =
                   f.size "size"
               }
 
-in  let ProcessRequest = {}
-
-in  let QueryValueStyleType =
-          < none :
-              Optional Text
-          | dashed :
-              Text
-          | dotted :
-              Text
-          | solid :
-              Text
-          >
-
-in  let QueryValueStyle =
-          { width :
-              Optional Text
-          , palette :
-              Optional Text
-          , type :
-              QueryValueStyleType
-          }
-
-in  let QueryValueType =
-          < none : Optional Text | area : Text | bars : Text | line : Text >
-
-in  let QueryValueRequest =
-          { aggregator :
-              Aggregator
-          , change_type :
-              Optional Text
-          , compare_to :
-              Optional Text
-          , extra_col :
-              Optional Text
-          , increase_good :
-              Optional Bool
-          , order_by :
-              Optional Text
-          , order_dir :
-              Optional Text
-          , q :
-              Text
-          , style :
-              Optional QueryValueStyle
-          , type :
-              QueryValueType
-          , metadata :
-              Optional (List Metadata)
-          , stacked :
-              Optional Bool
-          }
-
 in  let queryValueStyleType =
-              let f = constructors QueryValueStyleType
+              let f = constructors Types.QueryValueStyleType
 
           in  { none =
                   f.none ([] : Optional Text)
@@ -419,7 +223,7 @@ in  let queryValueStyleType =
               }
 
 in  let queryValueType =
-              let f = constructors QueryValueType
+              let f = constructors Types.QueryValueType
 
           in  { none =
                   f.none ([] : Optional Text)
@@ -431,105 +235,11 @@ in  let queryValueType =
                   f.line "line"
               }
 
-in  let TimeseriesEvent = { q : Text, tags_execution : Optional Text }
-
-in  let TimeseriesEventExecution = < and : Text >
-
-in  let TimeseriesMarkerType =
-          < errorBold :
-              Text
-          | errorDashed :
-              Text
-          | errorSolid :
-              Text
-          | infoBold :
-              Text
-          | infoDashed :
-              Text
-          | infoSolid :
-              Text
-          | okBold :
-              Text
-          | okDashed :
-              Text
-          | okSolid :
-              Text
-          | warningBold :
-              Text
-          | warningDashed :
-              Text
-          | warningSolid :
-              Text
-          >
-
-in  let TimeseriesMarkerLine =
-          { type : TimeseriesMarkerType, value : Text, label : Optional Text }
-
-in  let TimeseriesMarkerRange =
-          { type : TimeseriesMarkerType, value : Text, label : Optional Text }
-
-in  let TimeseriesMarker =
-          < line : TimeseriesMarkerLine | range : TimeseriesMarkerRange >
-
-in  let TimeseriesType =
-          < area : Text | bars : Text | line : Text | none : Optional Text >
-
-in  let TimeseriesStyleType =
-          < none :
-              Optional Text
-          | line :
-              Text
-          | solid :
-              Text
-          | dashed :
-              Text
-          | dotted :
-              Text
-          >
-
-in  let TimeseriesStyle =
-          { width :
-              Optional Text
-          , palette :
-              Optional Text
-          , type :
-              TimeseriesStyleType
-          }
-
-in  let TimeseriesRequest =
-          { q :
-              Text
-          , alias :
-              Optional Text
-          , aggregator :
-              Aggregator
-          , style :
-              Optional TimeseriesStyle
-          , type :
-              TimeseriesType
-          , stacked :
-              Optional Bool
-          , change_type :
-              Optional Text
-          , compare_to :
-              Optional Text
-          , extra_col :
-              Optional Text
-          , increase_good :
-              Optional Bool
-          , order_by :
-              Optional Text
-          , order_dir :
-              Optional Text
-          , metadata :
-              Optional (List Metadata)
-          }
-
 in  let timeseriesEventExecution =
-          let f = constructors TimeseriesEventExecution in { and = f.and "and" }
+          let f = constructors Types.TimeseriesEventExecution in { and = f.and "and" }
 
 in  let timeseriesStyleType =
-              let f = constructors TimeseriesStyleType
+              let f = constructors Types.TimeseriesStyleType
 
           in  { none =
                   f.none ([] : Optional Text)
@@ -544,7 +254,7 @@ in  let timeseriesStyleType =
               }
 
 in  let timeseriesMarkerType =
-              let f = constructors TimeseriesMarkerType
+              let f = constructors Types.TimeseriesMarkerType
 
           in  { errorBold =
                   f.errorBold "error bold"
@@ -573,7 +283,7 @@ in  let timeseriesMarkerType =
               }
 
 in  let timeseriesType =
-              let f = constructors TimeseriesType
+              let f = constructors Types.TimeseriesType
 
           in  { area =
                   f.area "area"
@@ -585,42 +295,8 @@ in  let timeseriesType =
                   f.none ([] : Optional Text)
               }
 
-in  let ToplistType =
-          < none : Optional Text | area : Text | bars : Text | line : Text >
-
-in  let ToplistStyleType =
-          < none :
-              Optional Text
-          | dashed :
-              Text
-          | dotted :
-              Text
-          | solid :
-              Text
-          >
-
-in  let ToplistStyle =
-          { width :
-              Optional Text
-          , palette :
-              Optional Text
-          , type :
-              ToplistStyleType
-          }
-
-in  let ToplistRequest =
-          { aggregator :
-              Aggregator
-          , q :
-              Text
-          , style :
-              Optional ToplistStyle
-          , type :
-              ToplistType
-          }
-
 in  let toplistStyleType =
-              let f = constructors ToplistStyleType
+              let f = constructors Types.ToplistStyleType
 
           in  { none =
                   f.none ([] : Optional Text)
@@ -633,7 +309,7 @@ in  let toplistStyleType =
               }
 
 in  let toplistType =
-              let f = constructors ToplistType
+              let f = constructors Types.ToplistType
 
           in  { none =
                   f.none ([] : Optional Text)
@@ -645,153 +321,14 @@ in  let toplistType =
                   f.line "line"
               }
 
-in  let TreemapRequest = { q : Text }
-
-in  let Graph =
-          < change :
-              { title :
-                  Text
-              , autoscale :
-                  Optional Bool
-              , request :
-                  List ChangeRequest
-              , viz :
-                  Text
-              }
-          | distribution :
-              { title :
-                  Text
-              , autoscale :
-                  Optional Bool
-              , request :
-                  List DistributionRequest
-              , viz :
-                  Text
-              }
-          | heatmap :
-              { title : Text, request : List HeatmapRequest, viz : Text }
-          | hostmap :
-              { title :
-                  Text
-              , request :
-                  List HostmapRequest
-              , viz :
-                  Text
-              , style :
-                  Optional HostmapStyle
-              , group :
-                  Optional (List Text)
-              , scope :
-                  Optional (List Text)
-              , include_no_metric_hosts :
-                  Optional Bool
-              , include_ungrouped_hosts :
-                  Optional Bool
-              , nodeType :
-                  Optional Text
-              }
-          | process :
-              { title : Text, request : List ProcessRequest, viz : Text }
-          | query_value :
-              { title :
-                  Text
-              , request :
-                  List QueryValueRequest
-              , aggregator :
-                  Aggregator
-              , viz :
-                  Text
-              , autoscale :
-                  Optional Bool
-              , custom_unit :
-                  Optional Text
-              , precision :
-                  Optional Text
-              , text_align :
-                  TextAlign
-              , marker :
-                  List TimeseriesMarker
-              , events :
-                  List TimeseriesEvent
-              , yaxis :
-                  Optional YAxis
-              , include_no_metric_hosts :
-                  Optional Bool
-              , include_ungrouped_hosts :
-                  Optional Bool
-              }
-          | timeseries :
-              { title :
-                  Text
-              , request :
-                  List TimeseriesRequest
-              , viz :
-                  Text
-              , autoscale :
-                  Optional Bool
-              , custom_unit :
-                  Optional Text
-              , precision :
-                  Optional Text
-              , yaxis :
-                  Optional YAxis
-              , marker :
-                  List TimeseriesMarker
-              , include_no_metric_hosts :
-                  Optional Bool
-              , include_ungrouped_hosts :
-                  Optional Bool
-              , events :
-                  List TimeseriesEvent
-              , text_align :
-                  TextAlign
-              , aggregator :
-                  Aggregator
-              }
-          | toplist :
-              { title :
-                  Text
-              , request :
-                  List ToplistRequest
-              , viz :
-                  Text
-              , autoscale :
-                  Optional Bool
-              , custom_unit :
-                  Optional Text
-              , precision :
-                  Optional Text
-              , text_align :
-                  TextAlign
-              , yaxis :
-                  Optional YAxis
-              }
-          | treemap :
-              { title :
-                  Text
-              , request :
-                  List TreemapRequest
-              , viz :
-                  Text
-              , q :
-                  Text
-              , size_by :
-                  Text
-              , color_by :
-                  Text
-              , group_by :
-                  Text
-              }
-          >
-
 in  let graph =
-              let f = constructors Graph
+              let f = constructors Types.Graph
 
           in  { change =
                     λ(title : Text)
                   → λ(opts : { autoscale : Optional Bool })
-                  → λ(variables : List TemplateVariable)
-                  → λ(requests : List ChangeRequest)
+                  → λ(variables : List Types.TemplateVariable)
+                  → λ(requests : List Types.ChangeRequest)
                   → { graph =
                         f.change
                         { title =
@@ -809,8 +346,8 @@ in  let graph =
               , distribution =
                     λ(title : Text)
                   → λ(opts : { autoscale : Optional Bool })
-                  → λ(variables : List TemplateVariable)
-                  → λ(requests : List DistributionRequest)
+                  → λ(variables : List Types.TemplateVariable)
+                  → λ(requests : List Types.DistributionRequest)
                   → { graph =
                         f.distribution
                         { title =
@@ -831,15 +368,15 @@ in  let graph =
                       : { autoscale :
                             Optional Bool
                         , events :
-                            List TimeseriesEvent
+                            List Types.TimeseriesEvent
                         , markers :
-                            List TimeseriesMarker
+                            List Types.TimeseriesMarker
                         , yaxis :
-                            Optional YAxis
+                            Optional Types.YAxis
                         }
                       )
-                  → λ(variables : List TemplateVariable)
-                  → λ(requests : List HeatmapRequest)
+                  → λ(variables : List Types.TemplateVariable)
+                  → λ(requests : List Types.HeatmapRequest)
                   → { graph =
                         f.heatmap
                         { title = title, request = requests, viz = "heatmap" }
@@ -850,7 +387,7 @@ in  let graph =
                     λ(title : Text)
                   → λ ( opts
                       : { style :
-                            Optional HostmapStyle
+                            Optional Types.HostmapStyle
                         , group :
                             Optional (List Text)
                         , scope :
@@ -863,8 +400,8 @@ in  let graph =
                             Optional Text
                         }
                       )
-                  → λ(variables : List TemplateVariable)
-                  → λ(requests : List HostmapRequest)
+                  → λ(variables : List Types.TemplateVariable)
+                  → λ(requests : List Types.HostmapRequest)
                   → { graph =
                         f.hostmap
                         { title =
@@ -893,7 +430,7 @@ in  let graph =
                     λ(title : Text)
                   → λ ( opts
                       : { aggregator :
-                            Aggregator
+                            Types.Aggregator
                         , autoscale :
                             Optional Bool
                         , custom_unit :
@@ -901,21 +438,21 @@ in  let graph =
                         , precision :
                             Optional Text
                         , text_align :
-                            TextAlign
+                            Types.TextAlign
                         , markers :
-                            List TimeseriesMarker
+                            List Types.TimeseriesMarker
                         , events :
-                            List TimeseriesEvent
+                            List Types.TimeseriesEvent
                         , yaxis :
-                            Optional YAxis
+                            Optional Types.YAxis
                         , include_no_metric_hosts :
                             Optional Bool
                         , include_ungrouped_hosts :
                             Optional Bool
                         }
                       )
-                  → λ(variables : List TemplateVariable)
-                  → λ(requests : List QueryValueRequest)
+                  → λ(variables : List Types.TemplateVariable)
+                  → λ(requests : List Types.QueryValueRequest)
                   → { graph =
                         f.query_value
                         { title =
@@ -951,8 +488,8 @@ in  let graph =
               , process =
                     λ(title : Text)
                   → λ(opts : {})
-                  → λ(variables : List TemplateVariable)
-                  → λ(requests : List ProcessRequest)
+                  → λ(variables : List Types.TemplateVariable)
+                  → λ(requests : List Types.ProcessRequest)
                   → { graph =
                         f.process
                         { title = title, request = requests, viz = "process" }
@@ -969,23 +506,23 @@ in  let graph =
                         , precision :
                             Optional Text
                         , yaxis :
-                            Optional YAxis
+                            Optional Types.YAxis
                         , markers :
-                            List TimeseriesMarker
+                            List Types.TimeseriesMarker
                         , include_no_metric_hosts :
                             Optional Bool
                         , include_ungrouped_hosts :
                             Optional Bool
                         , events :
-                            List TimeseriesEvent
+                            List Types.TimeseriesEvent
                         , text_align :
-                            TextAlign
+                            Types.TextAlign
                         , aggregator :
-                            Aggregator
+                            Types.Aggregator
                         }
                       )
-                  → λ(variables : List TemplateVariable)
-                  → λ(requests : List TimeseriesRequest)
+                  → λ(variables : List Types.TemplateVariable)
+                  → λ(requests : List Types.TimeseriesRequest)
                   → { graph =
                         f.timeseries
                         { title =
@@ -1028,13 +565,13 @@ in  let graph =
                         , precision :
                             Optional Text
                         , text_align :
-                            TextAlign
+                            Types.TextAlign
                         , yaxis :
-                            Optional YAxis
+                            Optional Types.YAxis
                         }
                       )
-                  → λ(variables : List TemplateVariable)
-                  → λ(requests : List ToplistRequest)
+                  → λ(variables : List Types.TemplateVariable)
+                  → λ(requests : List Types.ToplistRequest)
                   → { graph =
                         f.toplist
                         { title =
@@ -1070,8 +607,8 @@ in  let graph =
                             Text
                         }
                       )
-                  → λ(variables : List TemplateVariable)
-                  → λ(requests : List TreemapRequest)
+                  → λ(variables : List Types.TemplateVariable)
+                  → λ(requests : List Types.TreemapRequest)
                   → { graph =
                         f.treemap
                         { title =
@@ -1094,41 +631,28 @@ in  let graph =
                     }
               }
 
-in  let Timeboard =
-          { title :
-              Text
-          , description :
-              Text
-          , read_only :
-              Bool
-          , graph :
-              List Graph
-          , template_variable :
-              List TemplateVariable
-          }
-
 in  let timeboard =
           { autoscale =
               λ(value : Bool) → [ value ] : Optional Bool
           , defaultChangeStyle =
-              [] : Optional ChangeStyle
+              [] : Optional Types.ChangeStyle
           , defaultDistributionStyle =
-              [] : Optional DistributionStyle
+              [] : Optional Types.DistributionStyle
           , defaultHeatmapStyle =
-              [] : Optional HeatmapStyle
+              [] : Optional Types.HeatmapStyle
           , defaultHostmapStyle =
-              [] : Optional HostmapStyle
+              [] : Optional Types.HostmapStyle
           , defaultQueryValueStyle =
-              [] : Optional QueryValueStyle
+              [] : Optional Types.QueryValueStyle
           , defaultTimeseriesStyle =
-              [] : Optional TimeseriesStyle
+              [] : Optional Types.TimeseriesStyle
           , defaultToplistStyle =
-              [] : Optional ToplistStyle
+              [] : Optional Types.ToplistStyle
           , defaultMetadata =
-              [] : Optional (List Metadata)
+              [] : Optional (List Types.Metadata)
           , distributionStyle =
-                λ(value : DistributionStyle)
-              → [ value ] : Optional DistributionStyle
+                λ(value : Types.DistributionStyle)
+              → [ value ] : Optional Types.DistributionStyle
           , distributionStyleType =
               distributionStyleType
           , distributionType =
@@ -1136,29 +660,29 @@ in  let timeboard =
           , emptyAutoscale =
               [] : Optional Bool
           , emptyDistributionStyle =
-              [] : Optional DistributionStyle
+              [] : Optional Types.DistributionStyle
           , emptyGraphs =
-              [] : List Graph
+              [] : List Types.Graph
           , emptyHostmapGroups =
               [] : Optional (List Text)
           , emptyHostmapScope =
               [] : Optional (List Text)
           , emptyTemplateVariables =
-              [] : List TemplateVariable
+              [] : List Types.TemplateVariable
           , emptyTimeseriesEvents =
-              [] : List TimeseriesEvent
+              [] : List Types.TimeseriesEvent
           , emptyTimeseriesMarkers =
-              [] : List TimeseriesMarker
+              [] : List Types.TimeseriesMarker
           , emptyYAxis =
-              [] : Optional YAxis
+              [] : Optional Types.YAxis
           , changeStyle =
-              λ(value : ChangeStyle) → [ value ] : Optional ChangeStyle
+              λ(value : Types.ChangeStyle) → [ value ] : Optional Types.ChangeStyle
           , changeStyleType =
               changeStyleType
           , changeType =
               changeType
           , heatmapStyle =
-              λ(value : HeatmapStyle) → [ value ] : Optional HeatmapStyle
+              λ(value : Types.HeatmapStyle) → [ value ] : Optional Types.HeatmapStyle
           , heatmapStyleType =
               heatmapStyleType
           , heatmapType =
@@ -1170,11 +694,11 @@ in  let timeboard =
           , hostmapScope =
               λ(value : List Text) → [ value ] : Optional (List Text)
           , hostmapStyle =
-              λ(value : HostmapStyle) → [ value ] : Optional HostmapStyle
+              λ(value : Types.HostmapStyle) → [ value ] : Optional Types.HostmapStyle
           , hostmapType =
               hostmapType
           , queryValueStyle =
-              λ(value : QueryValueStyle) → [ value ] : Optional QueryValueStyle
+              λ(value : Types.QueryValueStyle) → [ value ] : Optional Types.QueryValueStyle
           , queryValueStyleType =
               queryValueStyleType
           , queryValueType =
@@ -1182,13 +706,13 @@ in  let timeboard =
           , timeseriesEventExecution =
               timeseriesEventExecution
           , timeseriesMarkerLine =
-                λ(value : TimeseriesMarkerLine)
-              → (constructors TimeseriesMarker).line value
+                λ(value : Types.TimeseriesMarkerLine)
+              → (constructors Types.TimeseriesMarker).line value
           , timeseriesMarkerRange =
-                λ(value : TimeseriesMarkerRange)
-              → (constructors TimeseriesMarker).range value
+                λ(value : Types.TimeseriesMarkerRange)
+              → (constructors Types.TimeseriesMarker).range value
           , timeseriesStyle =
-              λ(value : TimeseriesStyle) → [ value ] : Optional TimeseriesStyle
+              λ(value : Types.TimeseriesStyle) → [ value ] : Optional Types.TimeseriesStyle
           , timeseriesStyleType =
               timeseriesStyleType
           , timeseriesType =
@@ -1196,13 +720,13 @@ in  let timeboard =
           , timeseriesMarkerType =
               timeseriesMarkerType
           , toplistStyle =
-              λ(value : ToplistStyle) → [ value ] : Optional ToplistStyle
+              λ(value : Types.ToplistStyle) → [ value ] : Optional Types.ToplistStyle
           , toplistStyleType =
               toplistStyleType
           , toplistType =
               toplistType
           , yaxis =
-              λ(value : YAxis) → [ value ] : Optional YAxis
+              λ(value : Types.YAxis) → [ value ] : Optional Types.YAxis
           , aggregator =
               aggregator
           , textAlign =
@@ -1240,9 +764,9 @@ in  let TimeboardOpts =
                 Bool
             , graphs :
                 List
-                (ExtraFields → { graph : Graph, vars : List TemplateVariable })
+                (ExtraFields → { graph : Types.Graph, vars : List Types.TemplateVariable })
             , template_variable :
-                List TemplateVariable
+                List Types.TemplateVariable
             }
 
 in  let buildTimeboard =
@@ -1253,18 +777,18 @@ in  let buildTimeboard =
           →     let meta =
                       List/fold
                       (   ExtraFields
-                        → { graph : Graph, vars : List TemplateVariable }
+                        → { graph : Types.Graph, vars : List Types.TemplateVariable }
                       )
                       opts.graphs
-                      (List Graph)
+                      (List Types.Graph)
                       (   λ ( next
                             :   ExtraFields
-                              → { graph : Graph, vars : List TemplateVariable }
+                              → { graph : Types.Graph, vars : List Types.TemplateVariable }
                             )
-                        → λ(acc : List Graph)
+                        → λ(acc : List Types.Graph)
                         → let res = next extraFields in [ res.graph ] # acc
                       )
-                      ([] : List Graph)
+                      ([] : List Types.Graph)
 
             in  [   { mapKey =
                         key
@@ -1281,7 +805,7 @@ in  let buildTimeboard =
                             opts.template_variable
                         }
                     }
-                  : { mapKey : Text, mapValue : Timeboard }
+                  : { mapKey : Text, mapValue : Types.Timeboard }
                 ]
 
 in  let buildMetaTimeboards =
@@ -1305,9 +829,9 @@ in  let buildMetaTimeboards =
                 → List/fold
                   MetaParameters
                   extraFields
-                  (List { mapKey : Text, mapValue : Timeboard })
+                  (List { mapKey : Text, mapValue : Types.Timeboard })
                   (   λ(next : MetaParameters)
-                    → λ(acc : List { mapKey : Text, mapValue : Timeboard })
+                    → λ(acc : List { mapKey : Text, mapValue : Types.Timeboard })
                     →   buildTimeboard
                         ExtraFields
                         next.fields
@@ -1321,17 +845,17 @@ in  let buildMetaTimeboards =
                         )
                       # acc
                   )
-                  ([] : List { mapKey : Text, mapValue : Timeboard })
+                  ([] : List { mapKey : Text, mapValue : Types.Timeboard })
 
 in  { Timeboard =
         timeboard
     , root =
-          λ(timeboards : List (List { mapKey : Text, mapValue : Timeboard }))
+          λ(timeboards : List (List { mapKey : Text, mapValue : Types.Timeboard }))
         → { provider =
               { datadog = { version = "~> 1.0" } }
           , resource =
               { datadog_timeboard =
-                  List/concat { mapKey : Text, mapValue : Timeboard } timeboards
+                  List/concat { mapKey : Text, mapValue : Types.Timeboard } timeboards
               }
           }
     , timeboard =
