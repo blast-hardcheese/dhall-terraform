@@ -34,7 +34,7 @@ in  let Graphs =
                       { dim =
                           "y"
                       , type =
-                          "error dashed"
+                          T.timeseriesMarkerType.errorDashed
                       , value =
                           "y = 1.0"
                       , val =
