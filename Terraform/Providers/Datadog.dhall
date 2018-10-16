@@ -3,7 +3,7 @@ Relevant functions for managing Dashboards on Datadog.
 
 Example:
 ```
-    let Datadog = ./dhall-terraform/Terraform/Providers/Datadog.dhall 
+    let Datadog = ./dhall-terraform/Terraform/Providers/Datadog.dhall
 
 in  let T = Datadog.Timeboard
 
@@ -101,7 +101,7 @@ in  Datadog.root
 ```
 -}
     let List/concat =
-          https://raw.githubusercontent.com/dhall-lang/Prelude/e44284bc37a5808861dacd4c8bd13d18411cb961/List/concat 
+          https://raw.githubusercontent.com/dhall-lang/Prelude/e44284bc37a5808861dacd4c8bd13d18411cb961/List/concat
 
 in  let Aggregator =
           < none :
@@ -143,7 +143,7 @@ in  let YAxis =
 
 in  let aggregator =
               let f = constructors Aggregator
-          
+
           in  { none =
                   f.none ([] : Optional Text)
               , avg =
@@ -164,7 +164,7 @@ in  let aggregator =
 
 in  let textAlign =
               let f = constructors TextAlign
-          
+
           in  { none =
                   f.none ([] : Optional Text)
               , center =
@@ -213,12 +213,12 @@ in  let ChangeRequest =
 
 in  let changeType =
               let f = constructors ChangeType
-          
+
           in  { none = f.none ([] : Optional Text), line = f.line "line" }
 
 in  let changeStyleType =
               let f = constructors ChangeStyleType
-          
+
           in  { none = f.none ([] : Optional Text) }
 
 in  let DistributionType =
@@ -260,12 +260,12 @@ in  let DistributionRequest =
 
 in  let distributionStyleType =
               let f = constructors DistributionStyleType
-          
+
           in  { none = f.none ([] : Optional Text), solid = f.solid "solid" }
 
 in  let distributionType =
               let f = constructors DistributionType
-          
+
           in  { none =
                   f.none ([] : Optional Text)
               , area =
@@ -303,12 +303,12 @@ in  let HeatmapRequest =
 
 in  let heatmapStyleType =
               let f = constructors HeatmapStyleType
-          
+
           in  { none = f.none ([] : Optional Text), solid = f.solid "solid" }
 
 in  let heatmapType =
               let f = constructors HeatmapType
-          
+
           in  { none =
                   f.none ([] : Optional Text)
               , area =
@@ -333,7 +333,7 @@ in  let HostmapStyle = {}
 
 in  let hostmapRequestType =
               let f = constructors HostmapRequestType
-          
+
           in  { none =
                   f.none ([] : Optional Text)
               , fill =
@@ -344,7 +344,7 @@ in  let hostmapRequestType =
 
 in  let hostmapType =
               let f = constructors HostmapType
-          
+
           in  { none =
                   f.none ([] : Optional Text)
               , fill =
@@ -407,7 +407,7 @@ in  let QueryValueRequest =
 
 in  let queryValueStyleType =
               let f = constructors QueryValueStyleType
-          
+
           in  { none =
                   f.none ([] : Optional Text)
               , dashed =
@@ -420,7 +420,7 @@ in  let queryValueStyleType =
 
 in  let queryValueType =
               let f = constructors QueryValueType
-          
+
           in  { none =
                   f.none ([] : Optional Text)
               , area =
@@ -530,7 +530,7 @@ in  let timeseriesEventExecution =
 
 in  let timeseriesStyleType =
               let f = constructors TimeseriesStyleType
-          
+
           in  { none =
                   f.none ([] : Optional Text)
               , line =
@@ -545,7 +545,7 @@ in  let timeseriesStyleType =
 
 in  let timeseriesMarkerType =
               let f = constructors TimeseriesMarkerType
-          
+
           in  { errorBold =
                   f.errorBold "error bold"
               , errorDashed =
@@ -574,7 +574,7 @@ in  let timeseriesMarkerType =
 
 in  let timeseriesType =
               let f = constructors TimeseriesType
-          
+
           in  { area =
                   f.area "area"
               , bars =
@@ -621,7 +621,7 @@ in  let ToplistRequest =
 
 in  let toplistStyleType =
               let f = constructors ToplistStyleType
-          
+
           in  { none =
                   f.none ([] : Optional Text)
               , dashed =
@@ -634,7 +634,7 @@ in  let toplistStyleType =
 
 in  let toplistType =
               let f = constructors ToplistType
-          
+
           in  { none =
                   f.none ([] : Optional Text)
               , area =
@@ -786,7 +786,7 @@ in  let Graph =
 
 in  let graph =
               let f = constructors Graph
-          
+
           in  { change =
                     λ(title : Text)
                   → λ(opts : { autoscale : Optional Bool })
@@ -1265,7 +1265,7 @@ in  let buildTimeboard =
                         → let res = next extraFields in [ res.graph ] # acc
                       )
                       ([] : List Graph)
-            
+
             in  [   { mapKey =
                         key
                     , mapValue =
@@ -1298,7 +1298,7 @@ in  let buildMetaTimeboards =
                       , fields :
                           ExtraFields
                       }
-            
+
             in    λ(extraFields : List MetaParameters)
                 → λ(key : Text)
                 → λ(opts : TimeboardOpts ExtraFields)
