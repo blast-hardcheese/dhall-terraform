@@ -103,7 +103,7 @@ in  Datadog.root
     let List/concat =
           https://raw.githubusercontent.com/dhall-lang/Prelude/e44284bc37a5808861dacd4c8bd13d18411cb961/List/concat
 
-in  let Types = ./Types.dhall
+in  let Types = ./Datadog/Types.dhall
 
 in  let timeboard =
               let aggregator =
