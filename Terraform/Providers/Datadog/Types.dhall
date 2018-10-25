@@ -645,4 +645,59 @@
                   Timeboard
               }
 
-in  TimeboardTypes
+in  let MonitorTypes =
+              let ThresholdType =
+                    { ok :
+                        Optional Double
+                    , warning :
+                        Optional Double
+                    , critical :
+                        Optional Double
+                    , warning_recovery :
+                        Optional Double
+                    , critical_recovery :
+                        Optional Double
+                    }
+
+          in  let Monitor =
+                    { name :
+                        Text
+                    , message :
+                        Text
+                    , escalation_message :
+                        Optional Text
+                    , query :
+                        Text
+                    , type :
+                        Text
+                    , thresholds :
+                        List ThresholdType
+                    , notify_no_data :
+                        Optional Bool
+                    , new_host_delay :
+                        Optional Natural
+                    , evaluation_delay :
+                        Optional Natural
+                    , no_data_timeframe :
+                        Optional Natural
+                    , renotify_interval :
+                        Optional Natural
+                    , notify_audit :
+                        Optional Natural
+                    , timeout_h :
+                        Optional Natural
+                    , require_full_window :
+                        Optional Bool
+                    , locked :
+                        Optional Bool
+                    , silenced :
+                        Optional Natural
+                    , include_tags :
+                        Optional Bool
+                    , tags :
+                        List Text
+                    }
+
+          in  { Monitor = Monitor, ThresholdType = ThresholdType }
+
+in  TimeboardTypes ∧ MonitorTypes

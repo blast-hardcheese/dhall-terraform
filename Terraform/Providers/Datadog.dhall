@@ -914,8 +914,75 @@ in  let timeboard =
                     }
               }
 
+in  let monitor =
+              let buildMonitor =
+                      λ(name : Text)
+                    → λ(opts : { message : Text, query : Text, type : Text })
+                    → { name =
+                          name
+                      , message =
+                          opts.message
+                      , query =
+                          opts.query
+                      , type =
+                          opts.type
+                      , tags =
+                          [] : List Text
+                      , thresholds =
+                          [] : List Types.ThresholdType
+                      , escalation_message =
+                          None Text
+                      , notify_no_data =
+                          None Bool
+                      , new_host_delay =
+                          None Natural
+                      , evaluation_delay =
+                          None Natural
+                      , no_data_timeframe =
+                          None Natural
+                      , renotify_interval =
+                          None Natural
+                      , notify_audit =
+                          None Natural
+                      , timeout_h =
+                          None Natural
+                      , require_full_window =
+                          None Bool
+                      , locked =
+                          None Bool
+                      , silenced =
+                          None Natural
+                      , include_tags =
+                          None Bool
+                      }
 
-in  { Timeboard =
+          in  let monitors =
+                      λ(monitors : List Types.Monitor)
+                    →     let a = Types.Monitor
+
+                      in  let list =
+                                List { mapKey : Text, mapValue : Types.Monitor }
+
+                      in  List/fold
+                          a
+                          monitors
+                          list
+                          (   λ(next : a)
+                            → λ(acc : list)
+                            → [ { mapKey = next.name, mapValue = next } ] # acc
+                          )
+
+          in  { emptyMonitors =
+                  [] : List (List { mapKey : Text, mapValue : Types.Monitor })
+              , buildMonitor =
+                  buildMonitor
+              , monitors =
+                  monitors
+              }
+
+in  { Monitor =
+        monitor
+    , Timeboard =
         timeboard
     , root =
           λ ( timeboards
