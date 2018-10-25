@@ -988,10 +988,15 @@ in  { Monitor =
           λ ( timeboards
             : List (List { mapKey : Text, mapValue : Types.Timeboard })
             )
+        → λ(monitors : List (List { mapKey : Text, mapValue : Types.Monitor }))
         → { provider =
               { datadog = { version = "~> 1.0" } }
           , resource =
-              { datadog_timeboard =
+              { datadog_monitor =
+                  List/concat
+                  { mapKey : Text, mapValue : Types.Monitor }
+                  monitors
+              , datadog_timeboard =
                   List/concat
                   { mapKey : Text, mapValue : Types.Timeboard }
                   timeboards
