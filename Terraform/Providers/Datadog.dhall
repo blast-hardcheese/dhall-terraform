@@ -957,20 +957,36 @@ in  let monitor =
                       }
 
           in  let monitors =
-                      λ(monitors : List Types.Monitor)
-                    →     let a = Types.Monitor
+                      λ(extraMonitorType : Type)
+                    → λ(extraMonitorFields : extraMonitorType)
+                    →     let a =
+                                  extraMonitorType
+                                → { mapKey : Text, mapValue : Types.Monitor }
 
-                      in  let list =
-                                List { mapKey : Text, mapValue : Types.Monitor }
+                      in    λ(monitors : List a)
+                          →     let list =
+                                      List
+                                      { mapKey :
+                                          Text
+                                      , mapValue :
+                                          Types.Monitor
+                                      }
 
-                      in  List/fold
-                          a
-                          monitors
-                          list
-                          (   λ(next : a)
-                            → λ(acc : list)
-                            → [ { mapKey = next.name, mapValue = next } ] # acc
-                          )
+                            in  List/fold
+                                a
+                                monitors
+                                list
+                                (   λ(next : a)
+                                  → λ(acc : list)
+                                  → [ next extraMonitorFields ] # acc
+                                )
+                                ( [] : List
+                                       { mapKey :
+                                           Text
+                                       , mapValue :
+                                           Types.Monitor
+                                       }
+                                )
 
           in  { emptyMonitors =
                   [] : List (List { mapKey : Text, mapValue : Types.Monitor })
