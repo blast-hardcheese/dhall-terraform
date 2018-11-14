@@ -951,7 +951,7 @@ in  let monitor =
                       , locked =
                           None Bool
                       , silenced =
-                          None Natural
+                          None Types.Silenced
                       , include_tags =
                           None Bool
                       }

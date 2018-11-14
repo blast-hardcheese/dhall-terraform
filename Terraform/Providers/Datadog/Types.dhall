@@ -659,6 +659,8 @@ in  let MonitorTypes =
                         Optional Double
                     }
 
+          in  let Silenced = List { mapKey : Text, mapValue : Optional Text }
+
           in  let Monitor =
                     { name :
                         Text
@@ -691,13 +693,19 @@ in  let MonitorTypes =
                     , locked :
                         Optional Bool
                     , silenced :
-                        Optional Natural
+                        Optional Silenced
                     , include_tags :
                         Optional Bool
                     , tags :
                         List Text
                     }
 
-          in  { Monitor = Monitor, ThresholdType = ThresholdType }
+          in  { Monitor =
+                  Monitor
+              , Silenced =
+                  Silenced
+              , ThresholdType =
+                  ThresholdType
+              }
 
 in  TimeboardTypes ∧ MonitorTypes
