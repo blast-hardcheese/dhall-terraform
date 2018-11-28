@@ -11,6 +11,6 @@ Example:
             λ(scope : Text)
           → λ(k1 : Text)
           → λ(k2 : Text)
-          → "\${${scope}.${k2}.${k3}}"
+          → "\${${scope}.${k1}.${k2}}"
 
 in  ref3
